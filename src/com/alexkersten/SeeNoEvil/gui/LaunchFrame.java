@@ -134,10 +134,14 @@ public class LaunchFrame extends javax.swing.JFrame {
         if (jfc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 
             try {
+                //Start reading the file.
                 PCAPFile f = new PCAPFile(jfc.getSelectedFile().toPath());
-                while (f.hasNext()) {
-                    System.out.println("Packet with time " + f.getNext().getTime());
-                }
+
+                //If we get here, the construction of the wrapper didn't fail
+                //and we know this is a somewhat-valid PCAP file. Create the
+                //GUI and start populating it.
+                LiveFrame liveFrame = new LiveFrame(f);
+                liveFrame.setVisible(true);
             } catch (IOException ioe) {
                 JOptionPane.showMessageDialog(this, "IOException: " + ioe.getLocalizedMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }

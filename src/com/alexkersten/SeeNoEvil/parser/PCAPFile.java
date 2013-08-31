@@ -125,7 +125,6 @@ public class PCAPFile {
         int thisOrigLen = wordBuf.getInt();
 
         if (thisOrigLen == thisInclLen) {
-            System.out.println("Small packet");
             //Simple enough - just make a new object with this info and copy
             //the data buffer over
             PCAPPacket p = new PCAPPacket(thisTime, thisUTime, thisOrigLen);
@@ -142,7 +141,7 @@ public class PCAPFile {
 
         } else {
             //FIXME: Support for data split across multiple packets...
-            System.out.println("Big packet, giving up");
+            System.err.println("Big packet, giving up");
 
             return null;
         }
