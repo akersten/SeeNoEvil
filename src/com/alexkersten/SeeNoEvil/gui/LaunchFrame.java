@@ -12,7 +12,10 @@
 package com.alexkersten.SeeNoEvil.gui;
 
 import com.alexkersten.SeeNoEvil.SeeNoEvil;
+import com.alexkersten.SeeNoEvil.parser.PCAPFile;
+import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 /**
@@ -58,6 +61,11 @@ public class LaunchFrame extends javax.swing.JFrame {
         setTitle(SeeNoEvil.BRANDING + " " + SeeNoEvil.VERSION);
 
         jButton1.setText("Live Mode");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Audit Mode");
         jButton2.setEnabled(false);
@@ -119,6 +127,22 @@ public class LaunchFrame extends javax.swing.JFrame {
                                       "About " + SeeNoEvil.BRANDING + " "
                                       + SeeNoEvil.VERSION, WIDTH);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+        JFileChooser jfc = new JFileChooser();
+        if (jfc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+
+            try {
+                PCAPFile f = new PCAPFile(jfc.getSelectedFile().toPath());
+                while (f.hasNext()) {
+                    System.out.println("Packet with time " + f.getNext().getTime());
+                }
+            } catch (IOException ioe) {
+                JOptionPane.showMessageDialog(this, "IOException: " + ioe.getLocalizedMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
